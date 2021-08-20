@@ -10,6 +10,7 @@ function App() {
   let [따봉 , 따봉변경] = useState(0);
   let [modal , modal변경] = useState(false);
   let [누른제목 , 누른제목변경] = useState(0);
+  let [newTitle , setNewTitle ] = useState('');
 
   function change(){
     var array = [...글제목] //전체복사
@@ -17,38 +18,27 @@ function App() {
     글제목변경(array);
   }
 
+  function newTitleAdd(){
+    var titleArr = [...글제목];
+    titleArr.unshift(newTitle);
+    //console.log(titleArr);
+    글제목변경(titleArr);
+    
+  }
+
   function modalOnOff(){
     modal === true ? modal변경(false) : modal변경(true);
   }
-
-  var 어레이 = [2,3,4];
-  var 뉴어레이 = 어레이.map(function(a){
-    //a = 에레이 안의 값
-    return a * 2;
-  })
-
-  //for을 사용한 반목문
-  function 반복된UI(){
-    var 어레이 = [];
-    for(var i = 0 ; i < 3 ; i++){
-      어레이.push(<div>안녕</div>);
-    }
-    return 어레이;
-  }
-
-
 
   return (
     <div className="App">
       <div className="black-nav">
         <div>개발 Blog</div>
       </div>
-      <button onClick={change}> state 변경버튼</button>
-      {/* 반복문 */}
-      {
+      {//반목문
         글제목.map( function(글 , i){
           return (
-            <div className="list">
+            <div className="list" key={i}>
               <h3 onClick={ () => { 누른제목변경(i) } }>{글} 
                 <span onClick={()=>{따봉변경(따봉 + 1)}}>👍</span> {따봉} 
               </h3>
@@ -59,19 +49,20 @@ function App() {
         })
       }
 
-     {/*  <button >버튼1</button>
-      <button onClick={ () => { 누른제목변경(1) } }>버튼2</button>
-      <button onClick={ () => { 누른제목변경(2) } }>버튼3</button> */}
+      <div className="publish">
+        <input onChange={(e)=>{setNewTitle(e.target.value)}}/>
+        <button onClick={newTitleAdd}>저장</button>
+      </div>
 
-      {/* {
-        반복된UI()
-      } */}
+
+      {      /* input 사용법 */    }
+      {/* <input onChange={ (e)=>{입력값변경(e.target.value)} } /> */}
 
       <button onClick={modalOnOff}>상세 내용 버튼</button>
-      {/* if문 */}
-      {
+      {//if문
         modal === true ? <Modal 글제목={글제목} 누른제목={누른제목} /> : null
       }
+      <Profile />
     </div>
   );
 }
@@ -89,6 +80,32 @@ function Modal(props){
 //props 
 //부모의 컴포넌트에서 작명 = state 를 정의
 //자식의 컴포넌트에서 props를 파라미터로 전달받는다.
+
+
+//예전 문법
+class Profile extends React.Component{
+  constructor(){
+    super();
+    this.state = {name : 'Kim' , age : 30}
+  }
+  changeName = () => {
+    this.setState({name : 'Park'});
+  }
+  
+  render(){
+    return(
+      <div>
+        <h3>프로필</h3>
+        <p>저는 { this.state.name } 입니다.</p>
+        <button onClick={ this.changeName }>버튼</button>
+      </div>
+    )
+  }
+
+}
+
+
+
 
 
 export default App;
