@@ -1,0 +1,57 @@
+//import
+@import './reset.scss';
+
+//변수 등록
+$mainColor: #ff0000;
+
+.red {
+  color: $mainColor;
+}
+
+/* div.container h4 {
+  color: green;
+}
+
+div.container p {
+  color: blue;
+} */
+
+//nesting
+.container {
+  h4 {
+    color: blue;
+  }
+  p {
+    color: green;
+  }
+}
+
+//긴코드 복사
+@mixin function() {
+  background-color: #eeeeee;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+}
+
+.my-alert {
+  /* background-color: #eeeeee;
+  padding: 20px;
+  border-radius: 5px;
+  color: black;
+  max-width: 500px;
+  width: 100%;
+  margin: auto; */
+  @include function();
+}
+.my-alert-2 {
+  @extend .my-alert;
+  background-color: #ffe591;
+}
+
+.my-alert p {
+  margin-bottom: 0;
+  color: black;
+}
