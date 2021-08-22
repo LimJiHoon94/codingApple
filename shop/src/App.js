@@ -1,11 +1,12 @@
 /* eslint-disable */
 import logo from './logo.svg';
-import {Navbar , Container ,Nav , Button } from 'react-bootstrap';
+import {Navbar , Container ,Nav , Button , Spinner } from 'react-bootstrap';
 import './App.css';
 import { useState } from 'react';
 import Data from './data.js';
 import { Link ,Route , Switch} from 'react-router-dom';
 import Detail from './Detail.js';
+import axios from 'axios';
 
 
 //중요한 데이터는 맨 상위의 컴포넌트에 보관할 것 (국룰)
@@ -13,6 +14,8 @@ function App() {
 
   let [shoes , setShoes] = useState(Data);
   //console.log(shoes);
+  let [loding , setLoding] = useState(false);
+  let [재고 , 재고변경] = useState([10,11,12]);
 
 
 
@@ -22,14 +25,12 @@ function App() {
         <Container>
         <Navbar.Brand href="#home">SHOP</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link><Link to="/">Home</Link></Nav.Link>
-          <Nav.Link ><Link to="/detail">Detail</Link></Nav.Link>
+          <Nav.Link as={Link} to="/">Home</Nav.Link>
+          <Nav.Link as={Link} to="/detail/0">Detail </Nav.Link>
           {/* <Nav.Link href="#pricing">Pricing</Nav.Link> */}
         </Nav>
         </Container>
       </Navbar>
-
-     
 
       <Switch>
         <Route exact path="/">
@@ -50,11 +51,40 @@ function App() {
                 })
               } 
             </div>
+            {
+              loding === true ? (<Spinner animation="border" variant="primary" />) : null
+            }
+            
+            <br/>
+            <button className="btn btn-primary" onClick={()=>{
+              //axios POST 요청 예제 
+             /*  
+             axios.post('서버URL' , {id : 'codingapple' , pw : 1234})
+              .then(); 
+              
+              */
+
+
+              //로딩중 UI 생성
+              setLoding(true);
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((result)=>{
+                //로딩중 UI 삭제
+                setLoding(false);
+                setShoes([...shoes , ...result.data ]);
+                console.log(shoes) 
+              })//성공
+              .catch(()=>{
+                //로딩중 UI 삭제
+                setLoding(false);
+                console.log('실패');
+              })//실패
+            }}>더보기</button>
           </div>
         </Route>
 
         <Route path="/detail/:id"> {/* url parameter */}
-          <Detail shoes={shoes}/>
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
         </Route>
       </Switch>
       {/* <Route path="/" component={Modal} ></Route> */}
