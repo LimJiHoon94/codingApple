@@ -2,11 +2,21 @@
 import logo from './logo.svg';
 import {Navbar , Container ,Nav , Button , Spinner } from 'react-bootstrap';
 import './App.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Data from './data.js';
 import { Link ,Route , Switch} from 'react-router-dom';
 import Detail from './Detail.js';
 import axios from 'axios';
+import React from 'react';
+
+
+
+
+
+//context API 1
+export let 재고context = React.createContext();
+
+
 
 
 //중요한 데이터는 맨 상위의 컴포넌트에 보관할 것 (국룰)
@@ -44,18 +54,20 @@ function App() {
           </div>
 
           <div className="container">
-            <div className="row">
-              {  
-                shoes.map((shoes , i )=>{
-                  return <ShoesItems shoes={shoes} i={i} key={i} />
-                })
-              } 
-            </div>
-            {
-              loding === true ? (<Spinner animation="border" variant="primary" />) : null
-            }
-            
+            {/* //context API 2 */}
+            <재고context.Provider value={재고}>
+              <div className="row">
+                {  
+                  shoes.map((shoes , i )=>{
+                    return <ShoesItems shoes={shoes} i={i} key={i} />
+                  })
+                } 
+              </div>
+              { loding === true ? (<Spinner animation="border" variant="primary" />) : null  }
+            </재고context.Provider>
             <br/>
+
+
             <button className="btn btn-primary" onClick={()=>{
               //axios POST 요청 예제 
              /*  
@@ -84,7 +96,10 @@ function App() {
         </Route>
 
         <Route path="/detail/:id"> {/* url parameter */}
-          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
+        {/* Context API */}
+          <재고context.Provider value={재고}>
+            <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
+          </재고context.Provider>
         </Route>
       </Switch>
       {/* <Route path="/" component={Modal} ></Route> */}
@@ -96,14 +111,27 @@ function App() {
 
 
 function ShoesItems(props){
+  //context API 3
+  let 재고 = useContext(재고context);
+
   return(
     <div className="col-md-4">
       <img src={"https://codingapple1.github.io/shop/shoes"+ (props.i + 1) +".jpg"} width="100%"/>  
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content} & {props.shoes.price}원</p>
+      {/* contextAPI 4 */}
+      {/* {재고[props.i]} */}
+      <Test></Test>
     </div>
   )
-
 }
+
+function Test(){
+  //context API 5 
+  let 재고 = useContext(재고context)
+  return<p>재고 : {재고}</p>
+}
+
+
  
 export default App;

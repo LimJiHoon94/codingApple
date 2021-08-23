@@ -1,9 +1,10 @@
 /* eslint-disable */
 
 import axios from "axios";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { useHistory , useParams} from "react-router-dom";
 import styled from 'styled-components';
+import { 재고context } from "./App";    //context API
 import './Detail.scss';
 
  let 박스 = styled.div` 
@@ -33,7 +34,7 @@ function Detail(props){
 
     let [alert , setAlert] = useState(true);
     let [test , setTest] = useState('');
-
+    let 재고 = useContext(재고context);
 
 
     //컴포넌트 life cycle HOOK
