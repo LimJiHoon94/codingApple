@@ -2,10 +2,12 @@
 
 import axios from "axios";
 import React, {useContext, useEffect, useState} from "react";
+import { Nav } from "react-bootstrap";
 import { useHistory , useParams} from "react-router-dom";
 import styled from 'styled-components';
 import { 재고context } from "./App";    //context API
 import './Detail.scss';
+import {CSSTransition} from "react-transition-group"
 
  let 박스 = styled.div` 
     padding : 20px;
@@ -19,23 +21,13 @@ let 제목 = styled.h4`
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 function Detail(props){
 
     let [alert , setAlert] = useState(true);
     let [test , setTest] = useState('');
     let 재고 = useContext(재고context);
-
+    let [탭 , 탭변경] = useState(0);
+    let [스위치 , 스위치변경] = useState(false);
 
     //컴포넌트 life cycle HOOK
     //컴포넌트가 마운트되었을때  , 컴포넌트가 업데이트 되었을때 실행
@@ -117,11 +109,44 @@ function Detail(props){
                   }}>뒤로가기</button> 
                 </div>
             </div>
+            <Nav variant="tabs" defaultActiveKey="link-0" className="mt-5">
+              <Nav.Item>
+                <Nav.Link eventKey="link-0" onClick={()=>{ 스위치변경(false); 탭변경(0) }}>Option 0</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="link-1" onClick={()=>{ 스위치변경(false); 탭변경(1) }}>Option 1</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="link-2" onClick={()=>{ 스위치변경(false); 탭변경(2) }}>Option 2</Nav.Link>
+              </Nav.Item>
+            </Nav>
+
+            {/* CSS애니메이션 효과 */}
+            <CSSTransition in={스위치} classNames="wow" timeout={3000}>
+              <TabContent  탭={탭} 스위치변경={스위치변경}/>
+            </CSSTransition>
         </div> 
 
     );
 
 }
+
+function TabContent(props){
+
+  useEffect(()=>{
+    props.스위치변경(true);
+  })
+
+  if(props.탭 === 0){
+    return  <div>000</div>
+  }else if(props.탭 === 1 ){
+    return  <div>111</div>
+  }else if(props.탭 === 2){
+    return  <div>222</div>
+  }
+
+}
+
 
 function Info(props){
 

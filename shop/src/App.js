@@ -8,6 +8,7 @@ import { Link ,Route , Switch} from 'react-router-dom';
 import Detail from './Detail.js';
 import axios from 'axios';
 import React from 'react';
+import Cart from './Cart';
 
 
 
@@ -101,6 +102,13 @@ function App() {
             <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
           </재고context.Provider>
         </Route>
+
+
+        <Route path="/cart">
+          <Cart />
+        </Route>
+
+
       </Switch>
       {/* <Route path="/" component={Modal} ></Route> */}
     </div>
