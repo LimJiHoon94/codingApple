@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { 재고context } from "./App";    //context API
 import './Detail.scss';
 import {CSSTransition} from "react-transition-group"
+import { connect } from "react-redux";
 
  let 박스 = styled.div` 
     padding : 20px;
@@ -100,6 +101,11 @@ function Detail(props){
                   <Info 재고={props.재고}/>
                   <button className="btn btn-danger" onClick={()=>{
                     props.재고변경([9,11,12]);
+                    
+                    props.dispatch({type : '항목추가' , payload : {id : 2 , name : item.title , quan: 1}});
+
+                    history.push('/cart');
+
                   }}>주문하기</button> 
                   <br />
                   <br />
@@ -155,5 +161,13 @@ function Info(props){
   )
 }
 
+function state를props화(state){
+    console.log(state);
+    return {
+      state : state.reducer , 
+      alertValue : state.reducer2
+    }
+}
 
-export default Detail;
+
+export default connect(state를props화)(Detail);
