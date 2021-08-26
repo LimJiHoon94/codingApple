@@ -4,7 +4,7 @@ import {Navbar , Container ,Nav , Button , Spinner } from 'react-bootstrap';
 import './App.css';
 import { useContext, useState } from 'react';
 import Data from './data.js';
-import { Link ,Route , Switch} from 'react-router-dom';
+import { Link ,Route , Switch, useHistory} from 'react-router-dom';
 import Detail from './Detail.js';
 import axios from 'axios';
 import React from 'react';
@@ -38,7 +38,7 @@ function App() {
         <Nav className="me-auto">
           <Nav.Link as={Link} to="/">Home</Nav.Link>
           <Nav.Link as={Link} to="/detail/0">Detail </Nav.Link>
-          <Nav.Link as={Link} to="/cart">cart </Nav.Link>
+          <Nav.Link as={Link} to="/cart">Cart </Nav.Link>
           {/* <Nav.Link href="#pricing">Pricing</Nav.Link> */}
         </Nav>
         </Container>
@@ -122,9 +122,9 @@ function App() {
 function ShoesItems(props){
   //context API 3
   let 재고 = useContext(재고context);
-
+  let history = useHistory();
   return(
-    <div className="col-md-4">
+    <div className="col-md-4" onClick={()=>{history.push('/detail/' + props.shoes.id)   }}>
       <img src={"https://codingapple1.github.io/shop/shoes"+ (props.i + 1) +".jpg"} width="100%"/>  
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content} & {props.shoes.price}원</p>
