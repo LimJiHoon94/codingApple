@@ -41,21 +41,17 @@ function reducer(state = 초기값 , 액션){
     })
     //중복예외 처리
     if(found >= 0){
-      
       let copy = [...state];
       copy[found].quan++;
       return copy;
-
     }else{
       let copy = [...state];
       copy.push(액션.payload);
       return copy;
-    }
-    
+    }     
   }else if(액션.type === '수량증가'){
       let copy = [...state];
       copy[액션.payload].quan++;
-      
      return copy //수정된 state
   }else if(액션.type === '수량감소'){
     let copy = [...state];
